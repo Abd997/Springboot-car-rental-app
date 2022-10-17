@@ -1,9 +1,7 @@
 package com.khan.app.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table
@@ -12,6 +10,17 @@ public class Customers {
     
     private String email;
     private String password;
+    
+    private List<Bills> bill;
+    
+    @OneToMany
+    public List<Bills> getBill() {
+        return bill;
+    }
+    
+    public void setBill(List<Bills> bill) {
+        this.bill = bill;
+    }
     
     @Column
     public String getPassword() {
