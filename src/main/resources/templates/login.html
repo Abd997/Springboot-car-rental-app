@@ -37,7 +37,7 @@
                      if (rawResponse.status === 400) {
                          alert('User not registered');
                      } else if (rawResponse.status === 200) {
-                        window.location = '/home';
+                        window.location = '/home?user=' + email;
                      }
                     })();
                 }

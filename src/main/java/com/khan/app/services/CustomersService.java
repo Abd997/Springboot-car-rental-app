@@ -21,6 +21,23 @@ public class CustomersService {
         customerRepo.save(customer);
     }
     
+    public void delUser(Customer customer) {
+        customerRepo.delete(customer);
+    }
+    
+    public void updateUser(Customer oldCustomer) {
+        Customer newCustomer = customerRepo.findByEmail(oldCustomer.getEmail());
+        newCustomer.setFirstName(oldCustomer.getFirstName());
+        newCustomer.setLastName(oldCustomer.getLastName());
+        newCustomer.setState(oldCustomer.getState());
+        newCustomer.setCity(oldCustomer.getCity());
+        customerRepo.save(newCustomer);
+    }
+    
+    public Customer findCustomer(String email) {
+        return customerRepo.findByEmail(email);
+    }
+    
     public boolean checkEmail(String email) {
         Customer customer = customerRepo.findByEmail(email);
         return !Objects.isNull(customer);

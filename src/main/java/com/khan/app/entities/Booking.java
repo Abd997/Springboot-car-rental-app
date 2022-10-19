@@ -5,21 +5,33 @@ import javax.persistence.*;
 @Entity
 @Table
 public class Booking {
-    private Long id;
-    
-    private Vehicle car;
-    
-    @OneToOne
-    public Vehicle getCar() {
-        return car;
-    }
-    
-    public void setCar(Vehicle car) {
-        this.car = car;
-    }
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    
+    @OneToOne
+    private Vehicle vehicle;
+    
+    @ManyToOne
+    private Customer customer;
+    
+    public Customer getCustomer() {
+        return customer;
+    }
+    
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+    
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+    
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+    
     public Long getId() {
         return id;
     }

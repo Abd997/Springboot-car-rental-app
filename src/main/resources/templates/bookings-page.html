@@ -38,6 +38,10 @@
     </style>
 </head>
 <body>
+<script>
+
+</script>
+
 <div class="container-fluid">
     <div class="row bg-dark text-white p-3 d-flex justify-content-between">
         <div class="d-flex col-2">
@@ -57,25 +61,16 @@
     </div>
 
     <div class="px-5">
-        <div class="row mt-5" th:each="vehicle : ${vehicles}">
+        <div class="row mt-5" th:each="booking : ${bookings}">
             <div class="row p-4 text-white" style="background-color: #646363; border-radius: 10px">
                 <div class="row">
-                    <div>Company: <span th:text="${vehicle.getCompany()}"/></div>
+                    <div>Rate: <span th:text="${booking.getVehicle().getRate()}"/></div>
                 </div>
                 <div class="row">
-                    <div>Fuel type: <span th:text="${vehicle.getFuelType()}"/></div>
+                    <div>Location: <span th:text="${booking.getVehicle().getRentalLot().getCity()}"/></div>
                 </div>
                 <div class="row">
-                    <div>Rate: <span th:text="${vehicle.getRate()}"/></div>
-                </div>
-                <div class="row">
-                    <div>Year built: <span th:text="${vehicle.getYearBuilt()}"/></div>
-                </div>
-                <div class="row">
-                    <div>Location: <span th:text="${vehicle.getRentalLot().getCity()}"/></div>
-                </div>
-                <div class="row mt-4">
-                    <button class="btn btn-primary" th:onclick="|rentCar(${vehicle.getId()})|">Rent</button>
+                    <div>Car: <span th:text="${booking.getVehicle().getCompany()}"/></div>
                 </div>
             </div>
         </div>
@@ -86,24 +81,8 @@
     const params = new URLSearchParams(location.search);
     const user = params.get("user");
 
-    function rentCar(vehicleId) {
-        const url = "/rent-vehicle?user=" + user + "&vehicleId=" + vehicleId;
-        fetch(url, {
-            method: "POST"
-        }).then(res => {
-            if (res.status === 200) {
-                alert("Bill to rent car has been generated");
-            } else {
-                alert("Could not rent the car");
-            }
-        }).catch(err => {
-            alert("Could not rent the car");
-        })
-    }
-
     var homeLink = document.getElementById("homeLink");
     var bookingLink = document.getElementById("bookingLink");
-    console.log(homeLink);
 
     homeLink.setAttribute('href', '/home?user=' + user);
     bookingLink.setAttribute('href', '/bookings?user=' + user);
