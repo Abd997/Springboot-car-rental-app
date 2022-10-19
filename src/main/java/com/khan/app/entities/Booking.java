@@ -1,27 +1,25 @@
 package com.khan.app.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table
-public class Bills {
+public class Booking {
     private Long id;
     
-    private Cars car;
+    private Vehicle car;
     
     @OneToOne
-    public Cars getCar() {
+    public Vehicle getCar() {
         return car;
     }
     
-    public void setCar(Cars car) {
+    public void setCar(Vehicle car) {
         this.car = car;
     }
     
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }

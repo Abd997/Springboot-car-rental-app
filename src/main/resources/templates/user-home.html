@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet">
+
+    <title>Home</title>
+    <style>
+        .search__bar {
+            border-radius: 15px;
+            padding: 2px;
+            border: none;
+            margin-left: 5px;
+        }
+
+        .search__bar:focus {
+            outline: none;
+            border-bottom: solid 3px blue;
+            transition: 0.1s;
+        }
+
+        .search__bar {
+            padding-left: 15px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+            margin-left: 4px;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<script>
+    function rentCar() {
+        alert("Car rented");
+    }
+</script>
+
+<div class="container-fluid">
+    <div class="row bg-dark text-white p-3 d-flex justify-content-between">
+        <div class="d-flex col-2">
+            <a href="/home">
+                Home
+            </a>
+            <a class="ms-3" href="/bills">
+                Bills
+            </a>
+        </div>
+        <div class="col-auto">
+            <form action="/home" method="post">
+                <input class="search__bar" id="location" name="location" placeholder="Enter location"/>
+                <input hidden type="submit"/>
+            </form>
+        </div>
+    </div>
+
+    <div class="px-5">
+        <div class="row mt-5" th:each="vehicle : ${vehicles}">
+            <div class="row p-4 text-white" style="background-color: #646363; border-radius: 10px">
+                <div class="row">
+                    <div>Company: <span th:text="${vehicle.getCompany()}"/></div>
+                </div>
+                <div class="row">
+                    <div>Fuel type: <span th:text="${vehicle.getFuelType()}"/></div>
+                </div>
+                <div class="row">
+                    <div>Rate: <span th:text="${vehicle.getRate()}"/></div>
+                </div>
+                <div class="row">
+                    <div>Year built: <span th:text="${vehicle.getYearBuilt()}"/></div>
+                </div>
+                <div class="row">
+                    <div>Location: <span th:text="${vehicle.getRentalLot().getCity()}"/></div>
+                </div>
+                <div class="row mt-4">
+                    <button class="btn btn-primary" th:onclick="|rentCar(${vehicle.getId()})|">Rent</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

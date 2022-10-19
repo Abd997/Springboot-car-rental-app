@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet">
+
+    <title>Register</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-3 bg-light p-5 mt-5">
+            <h1 class="row py-2">Register</h1>
+            <form class="row" name="loginForm" onsubmit="function registerUser(e) {
+                    e.preventDefault();
+                    const email = this.document.loginForm.email.value;
+                    const password = this.document.loginForm.password.value;
+                    const address = this.document.loginForm.address.value;
+                    const firstName = this.document.loginForm.firstName.value;
+                    const lastName = this.document.loginForm.lastName.value;
+                    const city = this.document.loginForm.city.value;
+                    const state = this.document.loginForm.state.value;
+
+                    const obj = {
+                        email,
+                        password,
+                        address,
+                        firstName,
+                        lastName,
+                        city,
+                        state
+                    };
+                    (async () => {
+                        const body = JSON.stringify(obj);
+                      const rawResponse = await fetch('http://localhost:8080/customers', {
+                        method: 'POST',
+                        headers: {
+                          'Accept': 'application/json',
+                          'Content-Type': 'application/json'
+                        },
+                        body
+                      });
+                     if (rawResponse.status === 400) {
+                         alert('User could not be registered');
+                     } else if (rawResponse.status === 200) {
+                         alert('User registered');
+                         window.location = '/login'
+                     }
+                    })();
+                }
+                registerUser(event);
+            ">
+                <label class="row">
+                    Email
+                    <input autofocus class="mt-2" name="email" required type="text"/>
+                </label>
+                <label class="row mt-3">
+                    Password
+                    <input class="mt-2" name="password" required type="password"/>
+                </label>
+                <label class="row mt-3">
+                    First name
+                    <input class="mt-2" name="firstName" required type="text"/>
+                </label>
+                <label class="row mt-3">
+                    Last name
+                    <input class="mt-2" name="lastName" required type="text"/>
+                </label>
+                <label class="row mt-3">
+                    Address
+                    <input class="mt-2" name="address" required type="text"/>
+                </label>
+                <label class="row mt-3">
+                    City
+                    <input class="mt-2" name="city" required type="text"/>
+                </label>
+                <label class="row mt-3">
+                    State
+                    <input class="mt-2" name="state" required type="text"/>
+                </label>
+                <div class="row">
+                    <button class="btn btn-primary mt-4" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

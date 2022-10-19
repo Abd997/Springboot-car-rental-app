@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet">
+
+    <title>Login</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-3 bg-light p-5 mt-5">
+            <h1 class="row py-2">Login</h1>
+            <form class="row" name="loginForm" onsubmit="function authenticateUser(e) {
+                    e.preventDefault();
+                    const email = this.document.loginForm.email.value;
+                    const password = this.document.loginForm.password.value;
+                    const obj = {
+                        email,
+                        password
+                    };
+                    (async () => {
+                        const body = JSON.stringify(obj);
+                      const rawResponse = await fetch('http://localhost:8080/customers/login', {
+                        method: 'POST',
+                        headers: {
+                          'Accept': 'application/json',
+                          'Content-Type': 'application/json'
+                        },
+                        body
+                      });
+                     if (rawResponse.status === 400) {
+                         alert('User not registered');
+                     } else if (rawResponse.status === 200) {
+                        window.location = '/home';
+                     }
+                    })();
+                }
+                authenticateUser(event);
+            ">
+                <label class="row">
+                    Email
+                    <input autofocus class="mt-2" name="email" required type="text"/>
+                </label>
+                <label class="row mt-3">
+                    Password
+                    <input class="mt-2" name="password" required type="password"/>
+                </label>
+                <div class="row mt-4">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+                <div class="row mt-4">
+                    <a href="http://localhost:8080/register">Create account</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

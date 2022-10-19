@@ -1,6 +1,7 @@
 package com.khan.app.controllers;
 
-import com.khan.app.services.CustomerService;
+import com.khan.app.entities.Customer;
+import com.khan.app.services.CustomersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,27 +16,32 @@ import java.util.Map;
 @RequestMapping(value = "/customers")
 public class CustomersRestController {
     
-    private final CustomerService customerService;
+    private final CustomersService customersService;
     
     @Autowired
-    public CustomersRestController(CustomerService customerService) {
-        this.customerService = customerService;
+    public CustomersRestController(CustomersService customersService) {
+        this.customersService = customersService;
     }
     
     @PostMapping
     public ResponseEntity<?> addCustomer(
             @RequestBody Map<String, Object> payload
     ) {
-        boolean emailExists = customerService.checkEmail((String) payload.get("email"));
-        if (!emailExists) {
+        boolean emailExists = customersService.checkEmail((String) payload.get("email"));
+        if (emailExists) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body("Email already exists");
         }
-        customerService.addUser(
-                (String) payload.get("email"),
-                (String) payload.get("password")
-        );
+        Customer customer = new Customer();
+        customer.setEmail((String) payload.get("email"));
+        customer.setPassword((String) payload.get("password"));
+        customer.setAddress((String) payload.get("address"));
+        customer.setFirstName((String) payload.get("firstName"));
+        customer.setLastName((String) payload.get("lastName"));
+        customer.setCity((String) payload.get("city"));
+        customer.setState((String) payload.get("state"));
+        customersService.addUser(customer);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("Customer registered");
@@ -45,7 +51,7 @@ public class CustomersRestController {
     public ResponseEntity<?> getCustomer(
             @RequestBody Map<String, Object> payload
     ) {
-        boolean customerExists = customerService.authenticateUser(
+        boolean customerExists = customersService.authenticateUser(
                 (String) payload.get("email"),
                 (String) payload.get("password")
         );
